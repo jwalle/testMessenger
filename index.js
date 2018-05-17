@@ -1,7 +1,7 @@
 'use strict';
 
-const	express = 'express',
-	bodyParser = 'body-parser',
+const	express = require('express'),
+	bodyParser = require('body-parser'),
 	app = express().use(bodyParser.json());
 
 app.post('/webhook', (req, res) => {
@@ -32,6 +32,39 @@ app.get('/webhook', (req, res) => {
                 } else {
                         res.sendStatus(403);
                 }
+        }
+})
+
+function isPalin(str) {
+        str = str.toLowerCase();
+        let len = str.length;
+        if (len < 2) {
+                return false;
+        }
+        for (var i = 0; i < len/2; i++) {
+                if (str[i] !== str[len - 1 - i]) {
+                        return false;
+                }
+        }
+        return true;
+}
+
+const test = [
+        { word: "Kayak", palin: true },
+        { word: "Test", palin: false },
+        { word: "Été", palin: true },
+        { word: "éte", palin: false },
+        { word: "baab", palin: true },
+        { word: "a", palin: false }
+];
+
+console.log('Testing...');
+test.forEach(function(elem) {
+        process.stdout.write('Testing : ' + elem.word);
+        if (isPalin(elem.word) === elem.palin) {
+                console.log('\x1b[32m%s\x1b[0m', ' --> OK');
+        } else {
+                console.log('\x1b[31m%s\x1b[0m', ' --> NOPE');                
         }
 })
 
